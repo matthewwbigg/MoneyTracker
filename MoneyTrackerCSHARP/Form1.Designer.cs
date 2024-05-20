@@ -51,6 +51,7 @@
             this.btnExit.TabIndex = 0;
             this.btnExit.Text = "Exit";
             this.btnExit.UseVisualStyleBackColor = true;
+            this.btnExit.Click += new System.EventHandler(this.btnExit_Click);
             // 
             // txtIdLabel
             // 
@@ -175,6 +176,7 @@
             this.Controls.Add(this.btnExit);
             this.Name = "Form1";
             this.Text = "Money Tracker";
+            this.Load += new System.EventHandler(this.Form1_Load);
             this.ResumeLayout(false);
             this.PerformLayout();
 
