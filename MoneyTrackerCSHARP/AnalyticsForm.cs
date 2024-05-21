@@ -16,5 +16,10 @@ namespace MoneyTrackerCSHARP
         {
             InitializeComponent();
         }
+
+        private void AnalyticsForm_Load(object sender, EventArgs e)
+        {
+
+        }
     }
 }

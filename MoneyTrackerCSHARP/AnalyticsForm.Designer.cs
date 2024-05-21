@@ -128,6 +128,7 @@
             this.Controls.Add(this.label1);
             this.Name = "AnalyticsForm";
             this.Text = "AnalyticsForm";
+            this.Load += new System.EventHandler(this.AnalyticsForm_Load);
             this.ResumeLayout(false);
             this.PerformLayout();
 

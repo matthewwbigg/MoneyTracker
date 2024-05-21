@@ -28,19 +28,26 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             this.btnExit = new System.Windows.Forms.Button();
-            this.txtIdLabel = new System.Windows.Forms.Label();
-            this.textBox1 = new System.Windows.Forms.TextBox();
-            this.textBox2 = new System.Windows.Forms.TextBox();
+            this.lblID = new System.Windows.Forms.Label();
+            this.txtTransID = new System.Windows.Forms.TextBox();
+            this.txtAmount = new System.Windows.Forms.TextBox();
             this.label1 = new System.Windows.Forms.Label();
             this.lblDeposit = new System.Windows.Forms.Label();
             this.chkDeposit = new System.Windows.Forms.CheckBox();
-            this.textBox3 = new System.Windows.Forms.TextBox();
+            this.txtCategory = new System.Windows.Forms.TextBox();
             this.lblCategory = new System.Windows.Forms.Label();
             this.btnViewData = new System.Windows.Forms.Button();
             this.btnAddTrans = new System.Windows.Forms.Button();
             this.btnAnalytics = new System.Windows.Forms.Button();
             this.lblTitle = new System.Windows.Forms.Label();
+            this.transactionsDataSet = new MoneyTrackerCSHARP.TransactionsDataSet();
+            this.transactionsBindingSource = new System.Windows.Forms.BindingSource(this.components);
+            this.transactionsTableAdapter = new MoneyTrackerCSHARP.TransactionsDataSetTableAdapters.TransactionsTableAdapter();
+            this.tableAdapterManager = new MoneyTrackerCSHARP.TransactionsDataSetTableAdapters.TableAdapterManager();
+            ((System.ComponentModel.ISupportInitialize)(this.transactionsDataSet)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.transactionsBindingSource)).BeginInit();
             this.SuspendLayout();
             // 
             // btnExit
@@ -53,28 +60,30 @@
             this.btnExit.UseVisualStyleBackColor = true;
             this.btnExit.Click += new System.EventHandler(this.btnExit_Click);
             // 
-            // txtIdLabel
+            // lblID
             // 
-            this.txtIdLabel.AutoSize = true;
-            this.txtIdLabel.Location = new System.Drawing.Point(153, 86);
-            this.txtIdLabel.Name = "txtIdLabel";
-            this.txtIdLabel.Size = new System.Drawing.Size(77, 13);
-            this.txtIdLabel.TabIndex = 1;
-            this.txtIdLabel.Text = "Transaction ID";
+            this.lblID.AutoSize = true;
+            this.lblID.Location = new System.Drawing.Point(153, 86);
+            this.lblID.Name = "lblID";
+            this.lblID.Size = new System.Drawing.Size(77, 13);
+            this.lblID.TabIndex = 1;
+            this.lblID.Text = "Transaction ID";
             // 
-            // textBox1
+            // txtTransID
             // 
-            this.textBox1.Location = new System.Drawing.Point(159, 102);
-            this.textBox1.Name = "textBox1";
-            this.textBox1.Size = new System.Drawing.Size(64, 20);
-            this.textBox1.TabIndex = 2;
+            this.txtTransID.Enabled = false;
+            this.txtTransID.Location = new System.Drawing.Point(159, 102);
+            this.txtTransID.Name = "txtTransID";
+            this.txtTransID.Size = new System.Drawing.Size(64, 20);
+            this.txtTransID.TabIndex = 2;
+            this.txtTransID.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             // 
-            // textBox2
+            // txtAmount
             // 
-            this.textBox2.Location = new System.Drawing.Point(141, 173);
-            this.textBox2.Name = "textBox2";
-            this.textBox2.Size = new System.Drawing.Size(100, 20);
-            this.textBox2.TabIndex = 5;
+            this.txtAmount.Location = new System.Drawing.Point(141, 173);
+            this.txtAmount.Name = "txtAmount";
+            this.txtAmount.Size = new System.Drawing.Size(100, 20);
+            this.txtAmount.TabIndex = 5;
             // 
             // label1
             // 
@@ -103,12 +112,12 @@
             this.chkDeposit.TabIndex = 7;
             this.chkDeposit.UseVisualStyleBackColor = true;
             // 
-            // textBox3
+            // txtCategory
             // 
-            this.textBox3.Location = new System.Drawing.Point(61, 299);
-            this.textBox3.Name = "textBox3";
-            this.textBox3.Size = new System.Drawing.Size(260, 20);
-            this.textBox3.TabIndex = 9;
+            this.txtCategory.Location = new System.Drawing.Point(61, 299);
+            this.txtCategory.Name = "txtCategory";
+            this.txtCategory.Size = new System.Drawing.Size(260, 20);
+            this.txtCategory.TabIndex = 9;
             // 
             // lblCategory
             // 
@@ -127,6 +136,7 @@
             this.btnViewData.TabIndex = 10;
             this.btnViewData.Text = "View Data";
             this.btnViewData.UseVisualStyleBackColor = true;
+            this.btnViewData.Click += new System.EventHandler(this.btnViewData_Click);
             // 
             // btnAddTrans
             // 
@@ -136,6 +146,7 @@
             this.btnAddTrans.TabIndex = 11;
             this.btnAddTrans.Text = "Add Transaction";
             this.btnAddTrans.UseVisualStyleBackColor = true;
+            this.btnAddTrans.Click += new System.EventHandler(this.btnAddTrans_Click);
             // 
             // btnAnalytics
             // 
@@ -156,27 +167,49 @@
             this.lblTitle.TabIndex = 13;
             this.lblTitle.Text = "Enter New Transactions Below";
             // 
+            // transactionsDataSet
+            // 
+            this.transactionsDataSet.DataSetName = "TransactionsDataSet";
+            this.transactionsDataSet.SchemaSerializationMode = System.Data.SchemaSerializationMode.IncludeSchema;
+            // 
+            // transactionsBindingSource
+            // 
+            this.transactionsBindingSource.DataMember = "Transactions";
+            this.transactionsBindingSource.DataSource = this.transactionsDataSet;
+            // 
+            // transactionsTableAdapter
+            // 
+            this.transactionsTableAdapter.ClearBeforeFill = true;
+            // 
+            // tableAdapterManager
+            // 
+            this.tableAdapterManager.BackupDataSetBeforeUpdate = false;
+            this.tableAdapterManager.TransactionsTableAdapter = this.transactionsTableAdapter;
+            this.tableAdapterManager.UpdateOrder = MoneyTrackerCSHARP.TransactionsDataSetTableAdapters.TableAdapterManager.UpdateOrderOption.InsertUpdateDelete;
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(383, 482);
+            this.ClientSize = new System.Drawing.Size(391, 490);
             this.Controls.Add(this.lblTitle);
             this.Controls.Add(this.btnAnalytics);
             this.Controls.Add(this.btnAddTrans);
             this.Controls.Add(this.btnViewData);
-            this.Controls.Add(this.textBox3);
+            this.Controls.Add(this.txtCategory);
             this.Controls.Add(this.lblCategory);
             this.Controls.Add(this.chkDeposit);
             this.Controls.Add(this.lblDeposit);
-            this.Controls.Add(this.textBox2);
+            this.Controls.Add(this.txtAmount);
             this.Controls.Add(this.label1);
-            this.Controls.Add(this.textBox1);
-            this.Controls.Add(this.txtIdLabel);
+            this.Controls.Add(this.txtTransID);
+            this.Controls.Add(this.lblID);
             this.Controls.Add(this.btnExit);
             this.Name = "Form1";
             this.Text = "Money Tracker";
             this.Load += new System.EventHandler(this.Form1_Load);
+            ((System.ComponentModel.ISupportInitialize)(this.transactionsDataSet)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.transactionsBindingSource)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -185,18 +218,22 @@
         #endregion
 
         private System.Windows.Forms.Button btnExit;
-        private System.Windows.Forms.Label txtIdLabel;
-        private System.Windows.Forms.TextBox textBox1;
-        private System.Windows.Forms.TextBox textBox2;
+        private System.Windows.Forms.Label lblID;
+        private System.Windows.Forms.TextBox txtTransID;
+        private System.Windows.Forms.TextBox txtAmount;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Label lblDeposit;
         private System.Windows.Forms.CheckBox chkDeposit;
-        private System.Windows.Forms.TextBox textBox3;
+        private System.Windows.Forms.TextBox txtCategory;
         private System.Windows.Forms.Label lblCategory;
         private System.Windows.Forms.Button btnViewData;
         private System.Windows.Forms.Button btnAddTrans;
         private System.Windows.Forms.Button btnAnalytics;
         private System.Windows.Forms.Label lblTitle;
+        private TransactionsDataSet transactionsDataSet;
+        private System.Windows.Forms.BindingSource transactionsBindingSource;
+        private TransactionsDataSetTableAdapters.TransactionsTableAdapter transactionsTableAdapter;
+        private TransactionsDataSetTableAdapters.TableAdapterManager tableAdapterManager;
     }
 }
 

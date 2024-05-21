@@ -31,5 +31,10 @@ namespace MoneyTrackerCSHARP
             this.transactionsTableAdapter.Fill(this.transactionsDataSet.Transactions);
 
         }
+
+        private void btnDataClose_Click(object sender, EventArgs e)
+        {
+            Close();
+        }
     }
 }
