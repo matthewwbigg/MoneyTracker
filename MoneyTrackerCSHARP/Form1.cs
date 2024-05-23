@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Data.OleDb;
+using System.Data.SqlClient;
 using System.Drawing;
 using System.Linq;
 using System.Text;
@@ -42,7 +43,7 @@ namespace MoneyTrackerCSHARP
             odaTransactions.Fill(datTransactions);
 
             //Don't forget to close connection to database since data has already been imported by the adapter to the DataTable instance.
-            connect.Close();
+           connect.Close();
 
             //Now call datTransactions.Rows[][].ToString() to pull data from the table.
 
@@ -76,19 +77,57 @@ namespace MoneyTrackerCSHARP
 
             //Use convert.toInt32 to cast string to int
 
-            //Make row, add it to table, and add items to row.
-            DataRow newRow = datTransactions.NewRow();
+            //Make row, add items to row, THEN add row to table [This took me longer than it should have.]
+            //DataRow newRow = transactionsDataSet.Transactions.NewTransactionsRow();
 
-            newRow["Transaction ID"] = Convert.ToInt32(txtTransID.Text);
-            newRow["Amount"] = Convert.ToDecimal(txtAmount.Text);
-            newRow["Deposit?"] = chkDeposit.Checked;
-            newRow["Dates"] = DateTime.Now;
-            newRow["Category"] = txtCategory.Text;
+            //newRow["Transaction ID"] = Convert.ToInt32(txtTransID.Text);
+            //newRow["Amount"] = Convert.ToDecimal(txtAmount.Text);
+            //newRow["Deposit?"] = chkDeposit.Checked;
+            //newRow["Dates"] = DateTime.Now;
+            //newRow["Category"] = txtCategory.Text;
+
+            //transactionsDataSet.Transactions.AddTransactionsRow(newRow);
 
             //Update database with table that has new row
-            this.Validate();
-            this.transactionsBindingSource.EndEdit();
-            this.tableAdapterManager.UpdateAll(this.transactionsDataSet);
+            //this.Validate();
+            //this.transactionsBindingSource.EndEdit();
+            //this.tableAdapterManager.UpdateAll (this.transactionsDataSet);
+
+
+            //did data make it into data row? [It didn't.]
+            // String dataItem = datTransactions.R
+
+            //Got nowhere with the code above. [Ignore it. Don't look at it. Don't even remotely consider it. I've been at C# for 3 days.]
+
+
+            //connection and SQP strings
+            string connect = "Data Source=C:\\Users\\biggm\\Documents\\MoneyTracker.accdb";
+            string sql = "UPDATE Transactions SET [Transaction ID] = @transID, Amount = @amount, [Deposit?] = @deposit, Dates = @dates, Category = @category ";
+
+            //try-catch to try to update the database. Will Return error message is there's an issue
+            try
+            {
+                //connection variable
+                using (var connection = new SqlConnection(connect))
+                {
+                    //command variable
+                    using (var command = new SqlCommand(sql, connection))
+                    {
+                        //each line adds each piece of data before executing the sql command and updating the database
+                        //Parameters.Add(STRING, DATA ITEM);
+                        command.Parameters.AddWithValue("@transID", Convert.ToInt32(txtTransID.Text));
+
+                        connection.Open();
+                        command.ExecuteNonQuery();
+                    }
+                }
+
+            } catch (Exception ex)
+            {
+                MessageBox.Show($"Failed to update. Error message: {ex.Message}");
+            }
+
+
 
 
         }
