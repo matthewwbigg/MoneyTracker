@@ -20,6 +20,7 @@ namespace MoneyTrackerCSHARP
         private void AnalyticsForm_Load(object sender, EventArgs e)
         {
 
+
         }
     }
 }

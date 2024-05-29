@@ -37,4 +37,4 @@ namespace MoneyTrackerCSHARP
             Close();
         }
     }
-}
+} 

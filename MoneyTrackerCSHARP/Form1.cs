@@ -100,33 +100,39 @@ namespace MoneyTrackerCSHARP
             //Got nowhere with the code above. [Ignore it. Don't look at it. Don't even remotely consider it. I've been at C# for 3 days.]
 
 
-            //connection and SQP strings
-            string connect = "Data Source=C:\\Users\\biggm\\Documents\\MoneyTracker.accdb";
-            string sql = "UPDATE Transactions SET [Transaction ID] = @transID, Amount = @amount, [Deposit?] = @deposit, Dates = @dates, Category = @category ";
+            //connection and command strings
+            string sqlConnection = "Provider=Microsoft.ACE.OLEDB.12.0;Data Source=C:\\Users\\biggm\\Documents\\MoneyTracker.accdb";
+            string sqlUpdateCommand = "UPDATE Transactions SET [Transaction ID] = @transID, Amount = @amount, [Deposit?] = @deposit, Dates = @dates, Category = @category";
 
-            //try-catch to try to update the database. Will Return error message is there's an issue
-            try
+
+            using (OleDbConnection connection = new OleDbConnection(sqlConnection))
             {
-                //connection variable
-                using (var connection = new SqlConnection(connect))
-                {
-                    //command variable
-                    using (var command = new SqlCommand(sql, connection))
-                    {
-                        //each line adds each piece of data before executing the sql command and updating the database
-                        //Parameters.Add(STRING, DATA ITEM);
-                        command.Parameters.AddWithValue("@transID", Convert.ToInt32(txtTransID.Text));
+                connection.Open();
+                OleDbDataAdapter adapTransactions = new OleDbDataAdapter("SELECT * FROM Transactions", connection);
 
-                        connection.Open();
-                        command.ExecuteNonQuery();
-                    }
-                }
+               adapTransactions.Fill(datTransactions);
 
-            } catch (Exception ex)
-            {
-                MessageBox.Show($"Failed to update. Error message: {ex.Message}");
+
+                DataRow newRow = datTransactions.NewRow();
+
+                newRow["Transaction ID"] = Convert.ToInt32(txtTransID.Text);
+                newRow["Amount"] = Convert.ToDecimal(txtAmount.Text);
+                newRow["Deposit?"] = chkDeposit.Checked;
+                newRow["Dates"] = DateTime.Now;
+                newRow["Category"] = txtCategory.Text;
+
+                datTransactions.Rows.Add(newRow);
+                datTransactions.AcceptChanges();
+
+                this.Validate();
+                this.transactionsBindingSource.EndEdit();
+                this.tableAdapterManager.UpdateAll(this.transactionsDataSet);
+
+
+                //for troubleshooting 
+                Console.WriteLine(datTransactions.Compute("max([Amount])", ""));
+
             }
-
 
 
 
